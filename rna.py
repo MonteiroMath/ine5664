@@ -14,22 +14,41 @@ Steps:
 '''
 import numpy as np
 
+
 def sigmoid(x):
-    return 1/(1 + np.exp(np.dot(-1, x)))
-
-VIES = 3
-W0 = 1
-
-inputArray = np.array([W0])
-weightArray = np.array([VIES])
-
-neuron_output = np.dot(inputArray, weightArray)
-
-activation_output = sigmoid(neuron_output)
-
-print(activation_output)
+    return 1/(1 + np.exp(-x))
 
 
+def limiar(x):
+    return 1 if x >= 0 else 0
 
 
+X0 = 1
+WEIGHTS = [0, 0, 0]
+LEARNING_RATE = 0.5
 
+weightArray = np.array(WEIGHTS)
+
+observations = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1],
+]
+
+labels = [0, 1, 1, 1]
+
+for n in range(10):
+    for i, observation in enumerate(observations):
+
+        inputArray = np.array([X0] + observation)
+        neuron_output = np.dot(inputArray, weightArray)
+        # activation_output = sigmoid(neuron_output)
+        prediction = limiar(neuron_output)
+
+        if prediction != labels[i]:
+
+            weightArray = weightArray + LEARNING_RATE * \
+                inputArray * (labels[i] - prediction)
+
+    print(weightArray)
