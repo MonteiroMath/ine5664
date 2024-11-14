@@ -13,42 +13,31 @@ Steps:
 - Try implementing a simple network with a sigmoid function and see where we get
 '''
 import numpy as np
+from activation.activation import limiar
 
 
-def sigmoid(x):
-    return 1/(1 + np.exp(-x))
+def prepareInputArray(observation):
+    # Inclui X0 = 1 no array de observações para multiplicar pelo BIAS.
+    return np.array([1] + observation)
 
 
-def limiar(x):
-    return 1 if x >= 0 else 0
+def train(epochs, learningRate, weights, observations, labels):
 
+    weightArray = np.array(weights)
 
-X0 = 1
-WEIGHTS = [0, 0, 0]
-LEARNING_RATE = 0.5
+    for n in range(epochs):
+        for i, observation in enumerate(observations):
 
-weightArray = np.array(WEIGHTS)
+            inputArray = prepareInputArray(observation)
+            # produto entre input e pesos
+            neuron_output = np.dot(inputArray, weightArray)
+            # activation_output = sigmoid(neuron_output)
+            prediction = limiar(neuron_output)
 
-observations = [
-    [0, 0],
-    [0, 1],
-    [1, 0],
-    [1, 1],
-]
+            if prediction != labels[i]:
 
-labels = [0, 1, 1, 1]
+                # Ajusta pesos em caso de erro
+                weightArray = weightArray + learningRate * \
+                    inputArray * (labels[i] - prediction)
 
-for n in range(10):
-    for i, observation in enumerate(observations):
-
-        inputArray = np.array([X0] + observation)
-        neuron_output = np.dot(inputArray, weightArray)
-        # activation_output = sigmoid(neuron_output)
-        prediction = limiar(neuron_output)
-
-        if prediction != labels[i]:
-
-            weightArray = weightArray + LEARNING_RATE * \
-                inputArray * (labels[i] - prediction)
-
-    print(weightArray)
+        print(weightArray)
