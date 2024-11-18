@@ -31,21 +31,24 @@ def prepareInputArray(observation):
     return np.array([1] + observation)
 
 
+def rna(input, weights):
 
-def rna(input):
+    #extração dos pesos de cada camada
+    layer_1_weights = weights['layer_1_weights']
+    layer_2_weights = weights['layer_2_weights']
+    output_layer_weights = weights['output_layer_weights']
 
-    np.random.seed(42)
+
     layer_1_input = prepareInputArray(input)
-    layer_1_weights = np.random.randn(3, 3) # creates a 3x3 matrix: 3 neurons with 3 weights each
     layer_1_outputs = []
 
     for neuron_weights in layer_1_weights:
         output = np.dot(layer_1_input, neuron_weights)
         activation = sigmoid(output)
         layer_1_outputs.append(activation)
-    
+
     layer_2_input = prepareInputArray(layer_1_outputs)
-    layer_2_weights = np.random.randn(3, 4)
+
     layer_2_outputs = []
 
     for neuron_weights in layer_2_weights:
@@ -54,13 +57,27 @@ def rna(input):
         layer_2_outputs.append(activation)
 
     output_layer_input = prepareInputArray(layer_2_outputs)
-    output_layer_weights = np.random.randn(4)
+
     output = np.dot(output_layer_input, output_layer_weights)
     activation = sigmoid(output)
     return activation
 
 
-results = rna([0, 0])
+# Inicialização dos pesos
+np.random.seed(42)
+# creates a 3x3 matrix: 3 neurons with 3 weights each
+layer_1_weights = np.random.randn(3, 3)
+np.random.seed(32)
+layer_2_weights = np.random.randn(3, 4)
+np.random.seed(22)
+output_layer_weights = np.random.randn(4)
+weights = {
+    'layer_1_weights': layer_1_weights,
+    'layer_2_weights': layer_2_weights,
+    'output_layer_weights': output_layer_weights,
+}
+
+results = rna([0, 0], weights)
 print(results)
 
 '''
