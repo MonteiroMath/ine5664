@@ -23,7 +23,7 @@ Steps:
 what we get
 '''
 import numpy as np
-from activation.activation import limiar, sigmoid
+from activation import limiar, sigmoid
 
 
 def prepareInputArray(observation):
