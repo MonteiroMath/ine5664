@@ -24,6 +24,7 @@ what we get
 '''
 import numpy as np
 from activation import limiar, sigmoid
+from cost import meanSquaredError, binaryCrossEntropy, categoricalCrossEntropy
 
 
 def prepareInputArray(observation):
@@ -33,19 +34,18 @@ def prepareInputArray(observation):
 
 def rna(input, weights):
 
-    #extração dos pesos de cada camada
+    # extração dos pesos de cada camada
     layer_1_weights = weights['layer_1_weights']
     layer_2_weights = weights['layer_2_weights']
     output_layer_weights = weights['output_layer_weights']
-
 
     layer_1_input = prepareInputArray(input)
     layer_1_outputs = []
 
     for neuron_weights in layer_1_weights:
         output = np.dot(layer_1_input, neuron_weights)
-        activation = sigmoid(output)
-        layer_1_outputs.append(activation)
+        prediction = sigmoid(output)
+        layer_1_outputs.append(prediction)
 
     layer_2_input = prepareInputArray(layer_1_outputs)
 
@@ -53,16 +53,17 @@ def rna(input, weights):
 
     for neuron_weights in layer_2_weights:
         output = np.dot(layer_2_input, neuron_weights)
-        activation = sigmoid(output)
-        layer_2_outputs.append(activation)
+        prediction = sigmoid(output)
+        layer_2_outputs.append(prediction)
 
     output_layer_input = prepareInputArray(layer_2_outputs)
 
     output = np.dot(output_layer_input, output_layer_weights)
-    activation = sigmoid(output)
-    return activation
+    prediction = sigmoid(output)
+    return prediction
 
 
+'''
 # Inicialização dos pesos
 np.random.seed(42)
 # creates a 3x3 matrix: 3 neurons with 3 weights each
@@ -79,26 +80,38 @@ weights = {
 
 results = rna([0, 0], weights)
 print(results)
-
 '''
-def train(epochs, learningRate, weights, observations, labels):
 
-    weightArray = np.array(weights)
+
+def train(epochs, learningRate, observations, labels):
+
+    costFunction = meanSquaredError
+
+    labels = np.array(labels)
+
+    np.random.seed(42)
+    # creates a 3x3 matrix: 3 neurons with 3 weights each
+    layer_1_weights = np.random.randn(3, 3)
+    np.random.seed(32)
+    layer_2_weights = np.random.randn(3, 4)
+    np.random.seed(22)
+    output_layer_weights = np.random.randn(4)
+    weights = {
+        'layer_1_weights': layer_1_weights,
+        'layer_2_weights': layer_2_weights,
+        'output_layer_weights': output_layer_weights,
+    }
 
     for n in range(epochs):
-        for i, observation in enumerate(observations):
 
-            inputArray = prepareInputArray(observation)
-            # produto entre input e pesos
-            neuron_output = np.dot(inputArray, weightArray)
-            # activation_output = sigmoid(neuron_output)
-            prediction = limiar(neuron_output)
+        predictions = []
+        for observation in observations:
 
-            if prediction != labels[i]:
+            prediction = rna(observation, weights)
+            predictions.append(prediction)
 
-                # Ajusta pesos em caso de erro
-                weightArray = weightArray + learningRate * \
-                    inputArray * (labels[i] - prediction)
+        predictions = np.array(predictions)
 
-    return weightArray
-'''
+        cost = costFunction(predictions, labels)
+
+    # return weightArray
