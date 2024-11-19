@@ -27,9 +27,9 @@ from activation import sigmoid
 from cost import meanSquaredError, binaryCrossEntropy, categoricalCrossEntropy
 
 
-def prepareInputArray(observation):
+def prepareInput(observation):
     # Inclui X0 = 1 no array de observações para multiplicar pelo BIAS.
-    return np.array([1] + observation)
+    return np.concatenate(([1], observation))
 
 
 def rna(input, weights):
@@ -39,31 +39,22 @@ def rna(input, weights):
     layer_2_weights = weights['layer_2_weights']
     output_layer_weights = weights['output_layer_weights']
 
-    layer_1_input = prepareInputArray(input)
-    layer_1_outputs = []
+    layer_1_input = prepareInput(input)
 
-    for neuron_weights in layer_1_weights:
-        output = np.dot(layer_1_input, neuron_weights)
-        prediction = sigmoid(output)
-        layer_1_outputs.append(prediction)
+    layer_1_outputs = np.dot(layer_1_input, layer_1_weights.T)
+    layer_1_outputs = sigmoid(layer_1_outputs)
 
-    layer_2_input = prepareInputArray(layer_1_outputs)
+    layer_2_input = prepareInput(layer_1_outputs)
+    layer_2_outputs = np.dot(layer_2_input, layer_2_weights.T)
+    layer_2_outputs = sigmoid(layer_2_outputs)
 
-    layer_2_outputs = []
-
-    for neuron_weights in layer_2_weights:
-        output = np.dot(layer_2_input, neuron_weights)
-        prediction = sigmoid(output)
-        layer_2_outputs.append(prediction)
-
-    output_layer_input = prepareInputArray(layer_2_outputs)
-
+    output_layer_input = prepareInput(layer_2_outputs)
     output = np.dot(output_layer_input, output_layer_weights)
     prediction = sigmoid(output)
+
     return prediction
 
 
-'''
 # Inicialização dos pesos
 np.random.seed(42)
 # creates a 3x3 matrix: 3 neurons with 3 weights each
@@ -80,7 +71,6 @@ weights = {
 
 results = rna([0, 0], weights)
 print(results)
-'''
 
 
 def train(epochs, learningRate, observations, labels):
@@ -107,6 +97,7 @@ def train(epochs, learningRate, observations, labels):
         predictions = []
         for observation in observations:
 
+            np.array(observation)
             prediction = rna(observation, weights)
             predictions.append(prediction)
 
