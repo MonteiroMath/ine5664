@@ -23,7 +23,7 @@ Steps:
 what we get
 '''
 import numpy as np
-from activation import limiar, sigmoid
+from activation import sigmoid
 from cost import meanSquaredError, binaryCrossEntropy, categoricalCrossEntropy
 
 
