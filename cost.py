@@ -5,6 +5,10 @@ def meanSquaredError(predictions, labels):
     # Usar para regressão
     return np.mean((predictions - labels) ** 2)
 
+def mseDerivative(prediction, label):
+    # Derivada da mse para uma observação
+    return 2 * (prediction - label)
+
 def binaryCrossEntropy(predictions, labels):
     # Usar para classificação binária
 
