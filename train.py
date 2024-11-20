@@ -26,14 +26,14 @@ def train(epochs, learningRate, startWeights, observations):
 
             # invoca a função de custo
             cost = costFunction(prediction, label)
-            #print(cost)
+            print(cost)
 
             # Calcula a derivada do custo para a observação corrente
             costD = costDerivative(prediction, label)
 
             # Backpropagation para camada de output
-
             layerInput, combination, activation = intermediateValues["output_layer"]
+
             activationD = activationDerivative(combination)
 
             errorSignal = costD * activationD
@@ -42,12 +42,29 @@ def train(epochs, learningRate, startWeights, observations):
             gradient = errorSignal * layerInput * learningRate
             weights['output_layer_weights'] -= gradient
 
-        # predictions = np.array(predictions)
-        # cost = costFunction(predictions, labels)
+            # Backpropagation para a layer 1
 
-    return
+            prevActivationD = activationD
+            layerInput, combination, activation = intermediateValues["layer_1"]
+
+            # para neuron 1
+            activationD = activationDerivative(combination[0])
+            errorSignal = costD * prevActivationD * \
+                weights["output_layer_weights"][1] * activationD
+            gradient = errorSignal * layerInput * learningRate
+            weights["layer_1_weights"][0] -= gradient
+
+            # para neuron 2
+            activationD = activationDerivative(combination[1])
+            errorSignal = costD * prevActivationD * \
+                weights["output_layer_weights"][2] * activationD
+
+            gradient = errorSignal * layerInput * learningRate
+            weights["layer_1_weights"][1] -= gradient
 
 
+# predictions = np.array(predictions)
+# cost = costFunction(predictions, labels)
 np.random.seed(42)
 layer_1_weights = np.random.randn(2, 3)
 np.random.seed(22)
