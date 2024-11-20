@@ -39,22 +39,24 @@ def rna(input, weights):
     layer_2_weights = weights['layer_2_weights']
     output_layer_weights = weights['output_layer_weights']
 
+    # Operações da camada 1
     layer_1_input = prepareInput(input)
-
     layer_1_outputs = np.dot(layer_1_input, layer_1_weights.T)
     layer_1_outputs = sigmoid(layer_1_outputs)
 
+    # Operações da camada 2
     layer_2_input = prepareInput(layer_1_outputs)
     layer_2_outputs = np.dot(layer_2_input, layer_2_weights.T)
     layer_2_outputs = sigmoid(layer_2_outputs)
 
+    # Operações da camada de output
     output_layer_input = prepareInput(layer_2_outputs)
     output = np.dot(output_layer_input, output_layer_weights)
     prediction = sigmoid(output)
 
     return prediction
 
-
+'''
 # Inicialização dos pesos
 np.random.seed(42)
 # creates a 3x3 matrix: 3 neurons with 3 weights each
@@ -71,7 +73,7 @@ weights = {
 
 results = rna([0, 0], weights)
 print(results)
-
+'''
 
 def train(epochs, learningRate, observations, labels):
 
