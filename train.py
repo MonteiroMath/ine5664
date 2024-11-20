@@ -20,24 +20,26 @@ def train(epochs, learningRate, startWeights, observations):
 
             attributes, label = observation
             attributes = np.array(attributes)
-            prediction, combination, ol_input = rna(attributes, weights)
+            # prediction, combination, ol_input = rna(attributes, weights)
+            prediction, intermediateValues = rna(attributes, weights)
             predictions.append(prediction)
 
             # invoca a função de custo
             cost = costFunction(prediction, label)
-            # print(cost)
+            #print(cost)
 
             # Calcula a derivada do custo para a observação corrente
             costD = costDerivative(prediction, label)
 
             # Backpropagation para camada de output
 
+            layerInput, combination, activation = intermediateValues["output_layer"]
             activationD = activationDerivative(combination)
 
             errorSignal = costD * activationD
 
-            #! ol_input[0] é sempre 1, assegurando o ajuste correto para o bias
-            gradient = errorSignal * ol_input * learningRate
+            #! layerInput[0] é sempre 1, assegurando o ajuste correto para o bias
+            gradient = errorSignal * layerInput * learningRate
             weights['output_layer_weights'] -= gradient
 
         # predictions = np.array(predictions)

@@ -47,9 +47,14 @@ def rna(input, weights):
     output_layer_weights = weights['output_layer_weights']
     activationFunction = sigmoid
 
+    intermediateValues = {}
+
     # Operações da camada 1
     layer_1_activations, layer_1_combinations, layer_1_input = forwardPass(
         input, layer_1_weights, activationFunction)
+
+    intermediateValues["layer_1"] = (
+        layer_1_input, layer_1_combinations, layer_1_activations)
 
     '''
     # Operações da camada 2
@@ -62,8 +67,10 @@ def rna(input, weights):
     # Operações da camada de output
     output_layer_activation, output_layer_combination, output_layer_input = forwardPass(
         layer_1_activations, output_layer_weights, activationFunction)
+    intermediateValues["output_layer"] = (
+        output_layer_input, output_layer_combination,  output_layer_activation)
 
-    return output_layer_activation, output_layer_combination, output_layer_input
+    return output_layer_activation, intermediateValues
 
 
 '''
