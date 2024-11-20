@@ -25,9 +25,18 @@ what we get
 import numpy as np
 from activation import sigmoid
 
+
 def prepareInput(observation):
     # Inclui X0 = 1 no array de observações para multiplicar pelo BIAS.
     return np.concatenate(([1], observation))
+
+
+def forwardPass(input, weights, activationFunction):
+    adjustedInput = prepareInput(input)
+    combination = np.dot(adjustedInput, weights.T)
+    activation = activationFunction(combination)
+
+    return activation, combination, adjustedInput
 
 
 def rna(input, weights):
@@ -36,29 +45,26 @@ def rna(input, weights):
     layer_1_weights = weights['layer_1_weights']
     layer_2_weights = weights['layer_2_weights']
     output_layer_weights = weights['output_layer_weights']
+    activationFunction = sigmoid
 
     # Operações da camada 1
-    layer_1_input = prepareInput(input)
-    layer_1_combinations = np.dot(layer_1_input, layer_1_weights.T)
-    layer_1_activations = sigmoid(layer_1_combinations)
+    layer_1_activations, layer_1_combinations, layer_1_input = forwardPass(
+        input, layer_1_weights, activationFunction)
 
     '''
     # Operações da camada 2
-    layer_2_input = prepareInput(layer_1_outputs)
-    layer_2_outputs = np.dot(layer_2_input, layer_2_weights.T)
-    layer_2_outputs = sigmoid(layer_2_outputs)
+    layer_2_activations, layer_2_combinations = forwardPass(layer_1_activations, layer_2_weights, activationFunction)
 
     # Operações da camada de output
-    output_layer_input = prepareInput(layer_2_outputs)
-    output = np.dot(output_layer_input, output_layer_weights)
-    prediction = sigmoid(output)
+    output_activations, output_combinations = forwardPass(layer_2_activations, output_layer_weights, activationFunction)
     '''
-    
-    output_layer_input = prepareInput(layer_1_activations)
-    output_layer_combination = np.dot(output_layer_input, output_layer_weights)
-    output_layer_activation = sigmoid(output_layer_combination)
+
+    # Operações da camada de output
+    output_layer_activation, output_layer_combination, output_layer_input = forwardPass(
+        layer_1_activations, output_layer_weights, activationFunction)
 
     return output_layer_activation, output_layer_combination, output_layer_input
+
 
 '''
 #! Rede com 2 hidden layers de 3 neurons cada
@@ -100,4 +106,3 @@ weights = {
 results = rna([0, 0], weights)
 print(results)
 '''
-
