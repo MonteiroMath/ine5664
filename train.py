@@ -33,34 +33,24 @@ def train(epochs, learningRate, startWeights, observations):
 
             # Backpropagation para camada de output
             layerInput, combination, activation = intermediateValues["output_layer"]
-
             activationD = activationDerivative(combination)
-
             errorSignal = costD * activationD
 
             #! layerInput[0] é sempre 1, assegurando o ajuste correto para o bias
             gradient = errorSignal * layerInput * learningRate
+
             weights['output_layer_weights'] -= gradient
 
             # Backpropagation para a layer 1
 
             prevActivationD = activationD
+
             layerInput, combination, activation = intermediateValues["layer_1"]
-
-            # para neuron 1
-            activationD = activationDerivative(combination[0])
-            errorSignal = costD * prevActivationD * \
-                weights["output_layer_weights"][1] * activationD
-            gradient = errorSignal * layerInput * learningRate
-            weights["layer_1_weights"][0] -= gradient
-
-            # para neuron 2
-            activationD = activationDerivative(combination[1])
-            errorSignal = costD * prevActivationD * \
-                weights["output_layer_weights"][2] * activationD
-
-            gradient = errorSignal * layerInput * learningRate
-            weights["layer_1_weights"][1] -= gradient
+            activationD = activationDerivative(combination)
+            errorSignals = costD * prevActivationD * \
+                weights["output_layer_weights"][:, 1:] @ activationD
+            gradients = np.outer(errorSignals, layerInput) * learningRate
+            weights["layer_1_weights"] -= gradients
 
 
 # predictions = np.array(predictions)
@@ -68,7 +58,7 @@ def train(epochs, learningRate, startWeights, observations):
 np.random.seed(42)
 layer_1_weights = np.random.randn(2, 3)
 np.random.seed(22)
-output_layer_weights = np.random.randn(3)
+output_layer_weights = np.random.randn(1, 3)
 
 EPOCHS = 100
 LEARNING_RATE = 0.5
