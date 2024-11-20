@@ -39,8 +39,8 @@ def rna(input, weights):
 
     # Operações da camada 1
     layer_1_input = prepareInput(input)
-    layer_1_outputs = np.dot(layer_1_input, layer_1_weights.T)
-    layer_1_outputs = sigmoid(layer_1_outputs)
+    layer_1_combinations = np.dot(layer_1_input, layer_1_weights.T)
+    layer_1_activations = sigmoid(layer_1_combinations)
 
     '''
     # Operações da camada 2
@@ -54,11 +54,11 @@ def rna(input, weights):
     prediction = sigmoid(output)
     '''
     
-    output_layer_input = prepareInput(layer_1_outputs)
-    output = np.dot(output_layer_input, output_layer_weights)
-    prediction = sigmoid(output)
+    output_layer_input = prepareInput(layer_1_activations)
+    output_layer_combination = np.dot(output_layer_input, output_layer_weights)
+    output_layer_activation = sigmoid(output_layer_combination)
 
-    return prediction
+    return output_layer_activation, output_layer_combination, output_layer_input
 
 '''
 #! Rede com 2 hidden layers de 3 neurons cada
