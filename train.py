@@ -43,11 +43,11 @@ def train(epochs, learningRate, startWeights, observations):
 
             # Backpropagation para a layer 1
 
-            prevActivationD = activationD
+            prevErrorSignal = errorSignal
 
             layerInput, combination, activation = intermediateValues["layer_1"]
             activationD = activationDerivative(combination)
-            errorSignals = costD * prevActivationD * \
+            errorSignals = prevErrorSignal * \
                 weights["output_layer_weights"][:, 1:] @ activationD
             gradients = np.outer(errorSignals, layerInput) * learningRate
             weights["layer_1_weights"] -= gradients
