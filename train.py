@@ -4,6 +4,22 @@ from activation import sigmoidDerivative
 import numpy as np
 
 
+def hiddenBackpropagation(weights, intermediateValues, prevErrorSignal, learningRate, activationDerivative):
+
+    currentWeights, nextLayerWeights = weights
+    layerInput, combination = intermediateValues
+
+    activationD = activationDerivative(combination)
+
+    errorSignals = prevErrorSignal * \
+        nextLayerWeights[:, 1:] * activationD
+
+    gradients = np.outer(errorSignals, layerInput) * learningRate
+
+    newWeights = currentWeights - gradients
+    return (newWeights, errorSignals)
+
+
 def train(epochs, learningRate, startWeights, observations):
 
     costFunction = meanSquaredError
@@ -33,20 +49,32 @@ def train(epochs, learningRate, startWeights, observations):
 
             # Backpropagation para camada de output
             layerInput, combination = intermediateValues["output_layer"]
+
             activationD = activationDerivative(combination)
             errorSignal = costD * activationD
 
             #! layerInput[0] é sempre 1, assegurando o ajuste correto para o bias
             gradient = errorSignal * layerInput * learningRate
-            gradient = gradient.reshape(1, -1) # assegura o formato correto do gradiente para a operação de subtração abaixo
-
+            # assegura o formato correto do gradiente para a operação de subtração abaixo
+            gradient = gradient.reshape(1, -1)
 
             weights['output_layer_weights'] -= gradient
 
             # Backpropagation para a layer 1
 
-            prevErrorSignal = errorSignal
+            propagationWeights = (weights["layer_1_weights"],
+                                  weights["output_layer_weights"])
 
+            newWeights, errorSignal = hiddenBackpropagation(propagationWeights,
+                                                            intermediateValues["layer_1"],
+                                                            errorSignal,
+                                                            learningRate,
+                                                            activationDerivative)
+
+            weights["layer_1_weights"] = newWeights
+
+            '''
+            prevErrorSignal = errorSignal
             layerInput, combination = intermediateValues["layer_1"]
             activationD = activationDerivative(combination)
             errorSignals = prevErrorSignal * \
@@ -55,6 +83,7 @@ def train(epochs, learningRate, startWeights, observations):
 
             # Verify shapes
             weights["layer_1_weights"] -= gradients
+            '''
 
 
 # predictions = np.array(predictions)
@@ -70,6 +99,8 @@ START_WEIGHTS = {
     'layer_1_weights': layer_1_weights,
     'layer_2_weights': None,
     'output_layer_weights': output_layer_weights,
+
+
 }
 
 observations = [
