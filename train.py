@@ -32,7 +32,7 @@ def train(epochs, learningRate, startWeights, observations):
             costD = costDerivative(prediction, label)
 
             # Backpropagation para camada de output
-            layerInput, combination, activation = intermediateValues["output_layer"]
+            layerInput, combination = intermediateValues["output_layer"]
             activationD = activationDerivative(combination)
             errorSignal = costD * activationD
 
@@ -45,7 +45,7 @@ def train(epochs, learningRate, startWeights, observations):
 
             prevErrorSignal = errorSignal
 
-            layerInput, combination, activation = intermediateValues["layer_1"]
+            layerInput, combination = intermediateValues["layer_1"]
             activationD = activationDerivative(combination)
             errorSignals = prevErrorSignal * \
                 weights["output_layer_weights"][:, 1:] @ activationD
@@ -60,8 +60,8 @@ layer_1_weights = np.random.randn(2, 3)
 np.random.seed(22)
 output_layer_weights = np.random.randn(1, 3)
 
-EPOCHS = 100
-LEARNING_RATE = 0.5
+EPOCHS = 1000
+LEARNING_RATE = 0.1
 START_WEIGHTS = {
     'layer_1_weights': layer_1_weights,
     'layer_2_weights': None,
