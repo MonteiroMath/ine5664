@@ -11,8 +11,12 @@ def hiddenBackpropagation(weights, intermediateValues, prevErrorSignal, learning
 
     activationD = activationDerivative(combination)
 
-    errorSignals = prevErrorSignal * \
-        nextLayerWeights[:, 1:] * activationD
+    # errorSignals = prevErrorSignal * \
+    #    nextLayerWeights[:, 1:] * activationD
+
+    propagatedErrorSignals = np.dot(prevErrorSignal, nextLayerWeights[:, 1:])
+
+    errorSignals = propagatedErrorSignals * activationD
 
     gradients = np.outer(errorSignals, layerInput) * learningRate
 
@@ -73,11 +77,26 @@ def train(epochs, learningRate, startWeights, observations):
 
             weights["layer_1_weights"] = newWeights
 
+            '''
+            # Backpropagation para a layer 2
+            propagationWeights = (weights["layer_2_weights"],
+                                  weights["layer_1_weights"])
+
+            newWeights, errorSignal = hiddenBackpropagation(propagationWeights,
+                                                            intermediateValues["layer_2"],
+                                                            errorSignal,
+                                                            learningRate,
+                                                            activationDerivative)
+
+            weights["layer_2_weights"] = newWeights
+            '''
 
 # predictions = np.array(predictions)
 # cost = costFunction(predictions, labels)
 np.random.seed(42)
 layer_1_weights = np.random.randn(2, 3)
+np.random.seed(500)
+layer_2_weights = np.random.randn(2, 3)
 np.random.seed(22)
 output_layer_weights = np.random.randn(1, 3)
 
@@ -85,7 +104,7 @@ EPOCHS = 1000
 LEARNING_RATE = 0.1
 START_WEIGHTS = {
     'layer_1_weights': layer_1_weights,
-    'layer_2_weights': None,
+    'layer_2_weights': layer_2_weights,
     'output_layer_weights': output_layer_weights,
 
 

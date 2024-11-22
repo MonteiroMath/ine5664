@@ -60,11 +60,13 @@ def rna(input, weights):
 
     '''
     # Operações da camada 2
-    layer_2_activations, layer_2_combinations = forwardPass(layer_1_activations, layer_2_weights, activationFunction)
+    layer_2_activations, layer_2_combinations, layer_2_input = forwardPass(layer_1_activations, layer_2_weights, activationFunction)
 
-    # Operações da camada de output
-    output_activations, output_combinations = forwardPass(layer_2_activations, output_layer_weights, activationFunction)
+    intermediateValues["layer_2"] = (
+        layer_2_input, layer_2_combinations)
     '''
+   
+    
 
     # Operações da camada de output
     output_layer_activation, output_layer_combination, output_layer_input = forwardPass(
