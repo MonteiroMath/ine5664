@@ -38,6 +38,8 @@ def train(epochs, learningRate, startWeights, observations):
 
             #! layerInput[0] é sempre 1, assegurando o ajuste correto para o bias
             gradient = errorSignal * layerInput * learningRate
+            gradient = gradient.reshape(1, -1) # assegura o formato correto do gradiente para a operação de subtração abaixo
+
 
             weights['output_layer_weights'] -= gradient
 
@@ -48,8 +50,10 @@ def train(epochs, learningRate, startWeights, observations):
             layerInput, combination = intermediateValues["layer_1"]
             activationD = activationDerivative(combination)
             errorSignals = prevErrorSignal * \
-                weights["output_layer_weights"][:, 1:] @ activationD
+                weights["output_layer_weights"][:, 1:] * activationD
             gradients = np.outer(errorSignals, layerInput) * learningRate
+
+            # Verify shapes
             weights["layer_1_weights"] -= gradients
 
 

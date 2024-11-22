@@ -32,7 +32,9 @@ def prepareInput(observation):
 
 
 def forwardPass(input, weights, activationFunction):
+
     adjustedInput = prepareInput(input)
+
     combination = np.dot(adjustedInput, weights.T)
     activation = activationFunction(combination)
 
