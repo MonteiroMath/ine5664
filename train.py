@@ -4,24 +4,26 @@ from activation import activationFunctions
 import numpy as np
 
 
-def hiddenBackpropagation(weights, intermediateValues, prevErrorSignal, learningRate, activationDerivative):
+def backpropagation(weights, intermediateValues, learningRate, costD, activationDerivative, nextLayerErrorSignals=None):
 
     currentWeights, nextLayerWeights = weights
-    layerInput, combination = intermediateValues
+    layerInput, combinations = intermediateValues
 
-    activationD = activationDerivative(combination)
+    activationD = activationDerivative(combinations)
 
-    # errorSignals = prevErrorSignal * \
-    #    nextLayerWeights[:, 1:] * activationD
-
-    propagatedErrorSignals = np.dot(prevErrorSignal, nextLayerWeights[:, 1:])
-
-    errorSignals = propagatedErrorSignals * activationD
+    if nextLayerErrorSignals is None:
+        # camada de output
+        errorSignals = costD * activationD
+    else:
+        # camadas ocultas
+        propagatedErrorSignals = np.dot(
+            nextLayerErrorSignals, nextLayerWeights[:, 1:])
+        errorSignals = propagatedErrorSignals * activationD
 
     gradients = np.outer(errorSignals, layerInput) * learningRate
 
-    newWeights = currentWeights - gradients
-    return (newWeights, errorSignals)
+    currentWeights -= gradients
+    return errorSignals
 
 
 def train(epochs, learningRate, startWeights, observations):
@@ -52,44 +54,28 @@ def train(epochs, learningRate, startWeights, observations):
             costD = costDerivative(prediction, label)
 
             # Backpropagation para camada de output
-            layerInput, combination = intermediateValues["output_layer"]
 
-            activationD = activationDerivative(combination)
-            errorSignal = costD * activationD
-
-            #! layerInput[0] é sempre 1, assegurando o ajuste correto para o bias
-            gradient = errorSignal * layerInput * learningRate
-            # assegura o formato correto do gradiente para a operação de subtração abaixo
-            gradient = gradient.reshape(1, -1)
-
-            weights['output_layer_weights'] -= gradient
+            errorSignals = backpropagation((weights["output_layer_weights"], None),
+                                           intermediateValues["output_layer"],
+                                           learningRate,
+                                           costD,
+                                           activationDerivative,
+                                           None
+                                           )
 
             # Backpropagation para a layer 1
 
             propagationWeights = (weights["layer_1_weights"],
                                   weights["output_layer_weights"])
 
-            newWeights, errorSignal = hiddenBackpropagation(propagationWeights,
-                                                            intermediateValues["layer_1"],
-                                                            errorSignal,
-                                                            learningRate,
-                                                            activationDerivative)
+            errorSignals = backpropagation(propagationWeights,
+                                           intermediateValues["layer_1"],
+                                           learningRate,
+                                           costD,
+                                           activationDerivative,
+                                           errorSignals
+                                           )
 
-            weights["layer_1_weights"] = newWeights
-
-            '''
-            # Backpropagation para a layer 2
-            propagationWeights = (weights["layer_2_weights"],
-                                  weights["layer_1_weights"])
-
-            newWeights, errorSignal = hiddenBackpropagation(propagationWeights,
-                                                            intermediateValues["layer_2"],
-                                                            errorSignal,
-                                                            learningRate,
-                                                            activationDerivative)
-
-            weights["layer_2_weights"] = newWeights
-            '''
 
 # predictions = np.array(predictions)
 # cost = costFunction(predictions, labels)

@@ -14,8 +14,7 @@ Steps:
     - via parameters
 - Define loss functions
     - via parameters
-- Define backward propagation method
-    - #todo doing
+- Generalize functions
 - Define training function and datasets for use
     - #todo
 
@@ -57,16 +56,6 @@ def rna(input, weights):
 
     intermediateValues["layer_1"] = (
         layer_1_input, layer_1_combinations)
-
-    '''
-    # Operações da camada 2
-    layer_2_activations, layer_2_combinations, layer_2_input = forwardPass(layer_1_activations, layer_2_weights, activationFunction)
-
-    intermediateValues["layer_2"] = (
-        layer_2_input, layer_2_combinations)
-    '''
-   
-    
 
     # Operações da camada de output
     output_layer_activation, output_layer_combination, output_layer_input = forwardPass(
