@@ -28,3 +28,10 @@ def softmax(x):
 
 def softmaxDerivative(x):
     return
+
+
+activationFunctions = {
+    "SIGMOID": (sigmoid, sigmoidDerivative),
+    "RELU": (ReLU, ReluDerivative),
+    "SOFTMAX": (softmax, softmaxDerivative)
+}

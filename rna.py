@@ -15,7 +15,7 @@ Steps:
 - Define loss functions
     - via parameters
 - Define backward propagation method
-    - #todo
+    - #todo doing
 - Define training function and datasets for use
     - #todo
 
@@ -23,7 +23,7 @@ Steps:
 what we get
 '''
 import numpy as np
-from activation import sigmoid
+from activation import activationFunctions
 
 
 def prepareInput(observation):
@@ -47,7 +47,7 @@ def rna(input, weights):
     layer_1_weights = weights['layer_1_weights']
     layer_2_weights = weights['layer_2_weights']
     output_layer_weights = weights['output_layer_weights']
-    activationFunction = sigmoid
+    activationFunction, activationDerivative = activationFunctions["SIGMOID"]
 
     intermediateValues = {}
 

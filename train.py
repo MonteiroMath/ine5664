@@ -1,6 +1,6 @@
 from rna import rna
-from cost import meanSquaredError, mseDerivative, binaryCrossEntropy, categoricalCrossEntropy
-from activation import sigmoidDerivative
+from cost import costFunctions
+from activation import activationFunctions
 import numpy as np
 
 
@@ -22,9 +22,9 @@ def hiddenBackpropagation(weights, intermediateValues, prevErrorSignal, learning
 
 def train(epochs, learningRate, startWeights, observations):
 
-    costFunction = meanSquaredError
-    costDerivative = mseDerivative
-    activationDerivative = sigmoidDerivative
+    costFunction, costDerivative = costFunctions["MSE"]
+    activationFunction, activationDerivative = activationFunctions["SIGMOID"]
+
     weights = startWeights
 
     for n in range(epochs):
@@ -72,18 +72,6 @@ def train(epochs, learningRate, startWeights, observations):
                                                             activationDerivative)
 
             weights["layer_1_weights"] = newWeights
-
-            '''
-            prevErrorSignal = errorSignal
-            layerInput, combination = intermediateValues["layer_1"]
-            activationD = activationDerivative(combination)
-            errorSignals = prevErrorSignal * \
-                weights["output_layer_weights"][:, 1:] * activationD
-            gradients = np.outer(errorSignals, layerInput) * learningRate
-
-            # Verify shapes
-            weights["layer_1_weights"] -= gradients
-            '''
 
 
 # predictions = np.array(predictions)
