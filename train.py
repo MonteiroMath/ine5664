@@ -52,42 +52,34 @@ def train(epochs, learningRate, layers, observations):
 
             # Calcula a derivada do custo para a observação corrente
             costD = costDerivative(prediction, label)
-            '''
-            # Backpropagation para camada de output
 
-            errorSignals = backpropagation((weights["output_layer_weights"], None),
-                                           intermediateValues["output_layer"],
-                                           learningRate,
-                                           costD,
-                                           activationDerivative,
-                                           None
-                                           )
+            reversedIntermediate = list(reversed(intermediateValues))
+            nextLaywerWeights = None
+            nextLayerErrorSignals = None
 
-            # Backpropagation para a layer 1
+            for i, layer in enumerate(reversed(layers)):
 
-            propagationWeights = (weights["layer_1_weights"],
-                                  weights["output_layer_weights"])
+                weights, (activationFunction, activationDerivative) = layer
 
-            errorSignals = backpropagation(propagationWeights,
-                                           intermediateValues["layer_1"],
-                                           learningRate,
-                                           costD,
-                                           activationDerivative,
-                                           errorSignals
-                                           )
-            '''
+                errorsSignals = backpropagation(
+                    (weights, nextLaywerWeights),
+                    reversedIntermediate[i],
+                    learningRate,
+                    costD,
+                    activationDerivative,
+                    nextLayerErrorSignals
+                )
 
-# predictions = np.array(predictions)
-# cost = costFunction(predictions, labels)
+                nextLaywerWeights = weights
+                nextLayerErrorSignals = errorsSignals
 
 
 # Lista no formato [(neurons, activation), (neurons, activation), (neurons, activation)]
 # Cada tupla representa uma camada
 
-
 layers = [
     (2, 'SIGMOID'),
-    #(2, 'SIGMOID'),
+    # (2, 'SIGMOID'),
     (1, 'SIGMOID')
 ]
 

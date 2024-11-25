@@ -19,8 +19,6 @@ def forwardPass(input, weights, activationFunction):
 
 def rna(input, layers):
 
-    activationFunction, activationDerivative = activationFunctions["SIGMOID"]
-
     intermediateValues = []
 
     prevActivations = input
