@@ -25,7 +25,7 @@ def rna(input, layers):
 
     weights, functions = layers
 
-    for i in range(len(layers)):
+    for i in range(len(weights)):
 
         layerWeights = weights[i]
         activationFunction, derivativeFunction = functions[i]

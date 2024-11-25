@@ -13,7 +13,7 @@ def backpropagation(layers, intermediateValues, costD, learningRate):
     reversedIntermediate = list(reversed(intermediateValues))
     adjustedWeights = []
 
-    for i in range(len(layers)):
+    for i in range(len(weights)):
 
         laywerWeights = reversedWeights[i]
         activationFunction, activationDerivative = reversedFunctions[i]
