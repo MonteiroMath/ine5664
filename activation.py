@@ -17,7 +17,7 @@ def ReLU(x):
     return np.maximum(0, x)
 
 def ReluDerivative(x):
-    return;
+    return np.where(x > 0, 1, 0)
 
 def softmax(x):
     # usar para classificação multi-classes
