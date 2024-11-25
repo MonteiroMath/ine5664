@@ -1,22 +1,19 @@
 import numpy as np
 
 
-def backpropagation(layers, intermediateValues, costD, learningRate):
-
+def backpropagation(layers, costD, learningRate):
     """
-    
+
     Implementa a operação da retropropagação para toda a rede
 
     Recebe: 
 
         layers: lista contendo pesos e funções de ativação/derivadas. Ver initLayers para mais detalhes
 
-        intermediateValues: lista contendo os valores intermediários produzidos na etapa de forward propagation
-
         costD: derivada da função de custo, já calculada
 
         learningRate: parâmetro de learningRate definido inicialmente
-    
+
     Retorna:
 
         - Lista contendo os pesos ajustados após a retropropagação
@@ -26,30 +23,25 @@ def backpropagation(layers, intermediateValues, costD, learningRate):
     nextLayerWeights = None
     nextLayerErrorSignals = None
 
-    # Extrai valores de pesos e funções
-    weights, functions = layers
-
-    # Reverte todas as litas para iterar a partir da última camada
-    reversedWeights = list(reversed(weights))
-    reversedFunctions = list(reversed(functions))
-    reversedIntermediate = list(reversed(intermediateValues))
-
     # Inicializa uma lista de pesos ajustados
     adjustedWeights = []
 
     # itera pelas camadas (começando pela última e indo até a primeira)
-    for i in range(len(weights)):
+    for layerParams in reversed(layers):
+
+        # extrai valores intermediários produzidos durante a forwardPass pela camada atual
+        intermediateValues = layerParams["intermediate"]
 
         # Obtém pesos da camada
-        layerWeights = reversedWeights[i]
+        weights = layerParams["weights"]
 
         # Obtém função para calcular derivada da função de ativação da camada
-        activationFunction, activationDerivative = reversedFunctions[i]
+        activationDerivative = layerParams["derivation"]
 
         # Obtém pesos ajustados e sinais de erro da camada atual
         newWeights, errorsSignals = backpropagateLayer(
-            (layerWeights, nextLayerWeights),
-            reversedIntermediate[i],
+            (weights, nextLayerWeights),
+            intermediateValues,
             learningRate,
             costD,
             activationDerivative,
@@ -57,7 +49,7 @@ def backpropagation(layers, intermediateValues, costD, learningRate):
         )
 
         # Atualiza nextLayerWeights e nextLayerErrorSignals com os valores correspondentes da camada atual
-        nextLayerWeights = layerWeights
+        nextLayerWeights = weights
         nextLayerErrorSignals = errorsSignals
 
         # Insere os valores dos pesos ajustados na lista de pessoas ajustados, assegurando a ordem correta
@@ -67,12 +59,10 @@ def backpropagation(layers, intermediateValues, costD, learningRate):
 
 
 def backpropagateLayer(weights, intermediateValues, learningRate, costD, activationDerivative, nextLayerErrorSignals=None):
-
-
     """ 
-    
+
     Realiza a operação de backpropagação em uma camada
-    
+
     Recebe:
 
         weights: tupla contendo os pesos da layer atual e os pesos da layer seguinte
@@ -113,7 +103,7 @@ def backpropagateLayer(weights, intermediateValues, learningRate, costD, activat
         # propaga o ErrorSignal da camada seguinte para a camada atual, considerando os pesos das camada seguinte
         propagatedErrorSignals = np.dot(
             nextLayerErrorSignals, nextLayerWeights[:, 1:])
-        
+
         # Calcula o errorSignal da camada atual, considerando a derivada da função de ativação
         errorSignals = propagatedErrorSignals * activationD
 

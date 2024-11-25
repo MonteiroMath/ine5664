@@ -44,27 +44,24 @@ def rna(input, layers):
 
         input: Array contendo os atributos da observação para processamento
 
-        layers: tupla contendo "weights" e "functions". Ver initLayers.
+        layers: lista contendo dicionário com parâmetros de cada camada. Ver initLayers.
 
     """
-
-    # Array para guardar valores intermediários para retropropagação
-    intermediateValues = [] 
 
     # inicializa prevActivations com os valores da camada de input
     prevActivations = input
 
-    # extrai listas de pesos e funções
-    weights, functions = layers
-
     # iteração pelas camadas da rede neural
-    for i in range(len(weights)):
+    for i in range(len(layers)):
+
+        # extrai parâmetros da camada
+        layerParams = layers[i]
 
         # Extrai os pesos da camada
-        layerWeights = weights[i]
+        layerWeights = layerParams["weights"]
 
         # Extrai a função de ativação da camada
-        activationFunction, derivativeFunction = functions[i]
+        activationFunction = layerParams["activation"]
 
         layerInput = prepareInput(prevActivations)
 
@@ -73,9 +70,9 @@ def rna(input, layers):
             layerInput, layerWeights, activationFunction)
 
         # Guarda os valores intermediários produzidos
-        intermediateValues.append((layerInput, combinations))
+        layerParams["intermediate"] = (layerInput, combinations)
 
         # atualiza prevActivations para os valores de ativação produzidos nessa camada
         prevActivations = activations
 
-    return activations, intermediateValues
+    return activations

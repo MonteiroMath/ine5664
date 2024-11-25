@@ -47,8 +47,8 @@ def train(epochs, learningRate, layers, observations, costF):
             attributes, label = observation
             attributes = np.array(attributes)
 
-            # Repassa os atributos e parâmetros das camadas para a rede neural e obtém uma predição e os valores intermediários produzidos
-            prediction, intermediateValues = rna(attributes, layers)
+            # Repassa os atributos e parâmetros das camadas para a rede neural e obtém uma predição
+            prediction = rna(attributes, layers)
             predictions.append(prediction)
 
             # invoca a função de custo
@@ -60,7 +60,11 @@ def train(epochs, learningRate, layers, observations, costF):
 
             # Obtém os pesos ajustados através da retropropagação
             adjustedWeights = backpropagation(
-                layers, intermediateValues, costD, learningRate)
-            
+                layers, costD, learningRate)
+
             # Atualiza os valores dos pesos usando os valores ajustados
-            layers[0] = adjustedWeights
+
+            #! alterar com for loop para atualizar weights
+
+            for i, layer in enumerate(layers):
+                layer["weights"] = adjustedWeights[i]

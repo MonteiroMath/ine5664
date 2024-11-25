@@ -13,8 +13,8 @@ SOFTMAX
 
 '''
 
-def initLayers(layers, attrNum):
 
+def initLayers(layers, attrNum):
     """
     Função para inicializar as camadas da rede neural
 
@@ -26,20 +26,23 @@ def initLayers(layers, attrNum):
 
     Retorna:
 
-        initialized_layers: uma lista contendo duas listas, weights e functions
-            - A lista de weights contendo as matrizes de pesos dos neurônios de cada camada
-            - A lista de functions contém uma tupla com a função de ativação da camada e suas derivadas
+        initialized_layers: uma lista contendo dicionários de parâmetros para cada camada
+            - weights: matriz de pesos da camada
+            - activation: função de ativação da camada
+            - derivation: função de derivação da camada
     """
 
     # inicializa prevLayerNeurons com o número de neurônios da camada de input
     prevLayerNeurons = attrNum
 
-    # Inicializa listas vazias de pesos e funções
-    weights = []
-    functions = []
+    # inicializa lista de camadas vazia
+    initialized_layers = []
 
     # Itera por todas as camadas
     for i, layer in enumerate(layers):
+
+        # inicializa dicionário de parâmetros
+        layerParams = {}
 
         np.random.seed(seeds[i])
 
@@ -47,15 +50,18 @@ def initLayers(layers, attrNum):
         neuronNum, activation = layer
 
         # Gera a matriz de pesos da camada. Um row por neurônio, contendo um peso para cada neurônio da camada anterior + 1 para o bias
-        layer_weights = np.random.randn(neuronNum, prevLayerNeurons + 1)
-
-        # Guarda os valores obtidos nas respectivas listas
-        weights.append(layer_weights)
-        functions.append(activationFunctions[activation])
+        layerParams["weights"] = np.random.randn(
+            neuronNum, prevLayerNeurons + 1)
+        
+        # Extrai funções de ativação e derivação da camada
+        activationFunction, derivateFunction = activationFunctions[activation]
+        layerParams["activation"] = activationFunction
+        layerParams["derivation"] = derivateFunction
 
         # Atualiza prevLayerNeurons com o número de neurônios da camada atual
         prevLayerNeurons = neuronNum
 
-    initialized_layers = [weights, functions]
+        # Guarda os parâmetros da camada
+        initialized_layers.append(layerParams)
 
     return initialized_layers
