@@ -28,12 +28,10 @@ def backpropagation(weights, intermediateValues, learningRate, costD, activation
     return errorSignals
 
 
-def train(epochs, learningRate, startWeights, observations):
+def train(epochs, learningRate, layers, observations):
 
     costFunction, costDerivative = costFunctions["MSE"]
     activationFunction, activationDerivative = activationFunctions["SIGMOID"]
-
-    weights = startWeights
 
     for n in range(epochs):
 
@@ -45,7 +43,7 @@ def train(epochs, learningRate, startWeights, observations):
             attributes, label = observation
             attributes = np.array(attributes)
             # prediction, combination, ol_input = rna(attributes, weights)
-            prediction, intermediateValues = rna(attributes, weights)
+            prediction, intermediateValues = rna(attributes, layers)
             predictions.append(prediction)
 
             # invoca a função de custo
@@ -54,7 +52,7 @@ def train(epochs, learningRate, startWeights, observations):
 
             # Calcula a derivada do custo para a observação corrente
             costD = costDerivative(prediction, label)
-
+            '''
             # Backpropagation para camada de output
 
             errorSignals = backpropagation((weights["output_layer_weights"], None),
@@ -77,7 +75,7 @@ def train(epochs, learningRate, startWeights, observations):
                                            activationDerivative,
                                            errorSignals
                                            )
-
+            '''
 
 # predictions = np.array(predictions)
 # cost = costFunction(predictions, labels)
@@ -89,7 +87,7 @@ def train(epochs, learningRate, startWeights, observations):
 
 layers = [
     (2, 'SIGMOID'),
-    (2, 'SIGMOID'),
+    #(2, 'SIGMOID'),
     (1, 'SIGMOID')
 ]
 
@@ -109,14 +107,14 @@ output_layer_weights = np.random.randn(1, 3)
 EPOCHS = 1000
 LEARNING_RATE = 0.1
 
-
+'''
 START_WEIGHTS = {
     'layer_1_weights': layers[0][0],
     'layer_2_weights': layers[1][0],
     'output_layer_weights': layers[2][0],
 
 }
-
+'''
 observations = [
     ([0, 0], 0),
     ([0, 1], 1),
@@ -125,4 +123,4 @@ observations = [
 ]
 
 
-train(EPOCHS, LEARNING_RATE, START_WEIGHTS, observations)
+train(EPOCHS, LEARNING_RATE, layers, observations)

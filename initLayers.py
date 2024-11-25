@@ -1,7 +1,7 @@
 from activation import activationFunctions
 import numpy as np
 
-seeds = [42, 500, 22]
+seeds = [42, 22, 22]
 
 
 def initLayers(layers, attrNum):
