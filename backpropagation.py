@@ -3,16 +3,23 @@ import numpy as np
 
 def backpropagation(layers, intermediateValues, costD, learningRate):
 
-    reversedIntermediate = list(reversed(intermediateValues))
     nextLaywerWeights = None
     nextLayerErrorSignals = None
 
-    for i, layer in enumerate(reversed(layers)):
+    weights, functions = layers
 
-        weights, (activationFunction, activationDerivative) = layer
+    reversedWeights = list(reversed(weights))
+    reversedFunctions = list(reversed(functions))
+    reversedIntermediate = list(reversed(intermediateValues))
+    adjustedWeights = []
 
-        errorsSignals = backpropagateLayer(
-            (weights, nextLaywerWeights),
+    for i in range(len(layers)):
+
+        laywerWeights = reversedWeights[i]
+        activationFunction, activationDerivative = reversedFunctions[i]
+
+        newWeights, errorsSignals = backpropagateLayer(
+            (laywerWeights, nextLaywerWeights),
             reversedIntermediate[i],
             learningRate,
             costD,
@@ -20,8 +27,11 @@ def backpropagation(layers, intermediateValues, costD, learningRate):
             nextLayerErrorSignals
         )
 
-        nextLaywerWeights = weights
+        nextLaywerWeights = laywerWeights
         nextLayerErrorSignals = errorsSignals
+        adjustedWeights.insert(0, newWeights)
+
+    return adjustedWeights
 
 
 def backpropagateLayer(weights, intermediateValues, learningRate, costD, activationDerivative, nextLayerErrorSignals=None):
@@ -42,5 +52,5 @@ def backpropagateLayer(weights, intermediateValues, learningRate, costD, activat
 
     gradients = np.outer(errorSignals, layerInput) * learningRate
 
-    currentWeights -= gradients
-    return errorSignals
+    newWeights = currentWeights - gradients
+    return newWeights, errorSignals

@@ -26,7 +26,9 @@ def train(epochs, learningRate, layers, observations):
             # Calcula a derivada do custo para a observação corrente
             costD = costDerivative(prediction, label)
 
-            backpropagation(layers, intermediateValues, costD, learningRate)
+            adjustedWeights = backpropagation(
+                layers, intermediateValues, costD, learningRate)
+            layers[0] = adjustedWeights
 
 
 # Lista no formato [(neurons, activation), (neurons, activation), (neurons, activation)]

@@ -23,12 +23,15 @@ def rna(input, layers):
 
     prevActivations = input
 
-    for layer in layers:
+    weights, functions = layers
 
-        weights, (activationFunction, activationDerivative) = layer
+    for i in range(len(layers)):
+
+        layerWeights = weights[i]
+        activationFunction, derivativeFunction = functions[i]
 
         activations, combinations, layerInput = forwardPass(
-            prevActivations, weights, activationFunction)
+            prevActivations, layerWeights, activationFunction)
 
         intermediateValues.append((layerInput, combinations))
         prevActivations = activations
