@@ -18,7 +18,7 @@ def binaryCrossEntropy(predictions, labels):
 
 
 def binaryEntropyDerivative(prediction, label):
-    pass
+    return (prediction - label) / (prediction * (1 - prediction))
 
 
 def categoricalCrossEntropy(predictions, labels):
