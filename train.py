@@ -3,6 +3,8 @@ from cost import costFunctions
 from activation import activationFunctions
 import numpy as np
 
+from initLayers import initLayers
+
 
 def backpropagation(weights, intermediateValues, learningRate, costD, activationDerivative, nextLayerErrorSignals=None):
 
@@ -79,20 +81,39 @@ def train(epochs, learningRate, startWeights, observations):
 
 # predictions = np.array(predictions)
 # cost = costFunction(predictions, labels)
+
+
+# Lista no formato [(neurons, activation), (neurons, activation), (neurons, activation)]
+# Cada tupla representa uma camada
+
+
+layers = [
+    (2, 'SIGMOID'),
+    (2, 'SIGMOID'),
+    (1, 'SIGMOID')
+]
+
+layers = initLayers(layers, 2)
+
+
+'''
 np.random.seed(42)
 layer_1_weights = np.random.randn(2, 3)
 np.random.seed(500)
 layer_2_weights = np.random.randn(2, 3)
 np.random.seed(22)
 output_layer_weights = np.random.randn(1, 3)
+'''
+
 
 EPOCHS = 1000
 LEARNING_RATE = 0.1
-START_WEIGHTS = {
-    'layer_1_weights': layer_1_weights,
-    'layer_2_weights': layer_2_weights,
-    'output_layer_weights': output_layer_weights,
 
+
+START_WEIGHTS = {
+    'layer_1_weights': layers[0][0],
+    'layer_2_weights': layers[1][0],
+    'output_layer_weights': layers[2][0],
 
 }
 
