@@ -14,6 +14,7 @@ def identity(x):
 
 
 def ReLU(x):
+
     return np.maximum(0, x)
 
 def ReluDerivative(x):

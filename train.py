@@ -64,7 +64,5 @@ def train(epochs, learningRate, layers, observations, costF):
 
             # Atualiza os valores dos pesos usando os valores ajustados
 
-            #! alterar com for loop para atualizar weights
-
             for i, layer in enumerate(layers):
                 layer["weights"] = adjustedWeights[i]

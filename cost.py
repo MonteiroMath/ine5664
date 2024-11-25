@@ -14,10 +14,16 @@ def mseDerivative(prediction, label):
 def binaryCrossEntropy(predictions, labels):
     # Usar para classificação binária
 
+    epsilon=1e-15
+    predictions = np.clip(predictions, epsilon, 1 - epsilon)
+
     return -np.mean(labels * np.log(predictions) + (1 - labels) * np.log(1 - predictions))
 
 
 def binaryEntropyDerivative(prediction, label):
+
+    epsilon=1e-15
+    prediction = np.clip(prediction, epsilon, 1 - epsilon)
     return (prediction - label) / (prediction * (1 - prediction))
 
 

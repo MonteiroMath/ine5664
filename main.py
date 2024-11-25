@@ -4,12 +4,12 @@ from initLayers import initLayers
 # Lista no formato [(neurons, activation), (neurons, activation), (neurons, activation)]
 # Cada tupla representa uma camada
 layers = [
-    (2, 'SIGMOID'),
+    (2, 'RELU'),
     # (2, 'SIGMOID'),
     (1, 'SIGMOID')
 ]
 
-costF = "MSE"
+costF = "BINARY_ENTROPY"
 
 layers = initLayers(layers, 2)
 
