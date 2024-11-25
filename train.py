@@ -5,9 +5,9 @@ from initLayers import initLayers
 from backpropagation import backpropagation
 
 
-def train(epochs, learningRate, layers, observations):
+def train(epochs, learningRate, layers, observations, costF):
 
-    costFunction, costDerivative = costFunctions["MSE"]
+    costFunction, costDerivative = costFunctions[costF]
 
     for n in range(epochs):
 
@@ -39,6 +39,8 @@ layers = [
     (1, 'SIGMOID')
 ]
 
+costF = "MSE"
+
 layers = initLayers(layers, 2)
 
 EPOCHS = 1000
@@ -52,4 +54,4 @@ observations = [
 ]
 
 
-train(EPOCHS, LEARNING_RATE, layers, observations)
+train(EPOCHS, LEARNING_RATE, layers, observations, costF )
