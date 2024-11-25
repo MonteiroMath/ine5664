@@ -1,31 +1,9 @@
+import numpy as np
 from rna import rna
 from cost import costFunctions
 from activation import activationFunctions
-import numpy as np
-
 from initLayers import initLayers
-
-
-def backpropagation(weights, intermediateValues, learningRate, costD, activationDerivative, nextLayerErrorSignals=None):
-
-    currentWeights, nextLayerWeights = weights
-    layerInput, combinations = intermediateValues
-
-    activationD = activationDerivative(combinations)
-
-    if nextLayerErrorSignals is None:
-        # camada de output
-        errorSignals = costD * activationD
-    else:
-        # camadas ocultas
-        propagatedErrorSignals = np.dot(
-            nextLayerErrorSignals, nextLayerWeights[:, 1:])
-        errorSignals = propagatedErrorSignals * activationD
-
-    gradients = np.outer(errorSignals, layerInput) * learningRate
-
-    currentWeights -= gradients
-    return errorSignals
+from backpropagation import backpropagation
 
 
 def train(epochs, learningRate, layers, observations):
@@ -48,35 +26,16 @@ def train(epochs, learningRate, layers, observations):
 
             # invoca a função de custo
             cost = costFunction(prediction, label)
-            print(cost)
+            print(prediction)
 
             # Calcula a derivada do custo para a observação corrente
             costD = costDerivative(prediction, label)
 
-            reversedIntermediate = list(reversed(intermediateValues))
-            nextLaywerWeights = None
-            nextLayerErrorSignals = None
-
-            for i, layer in enumerate(reversed(layers)):
-
-                weights, (activationFunction, activationDerivative) = layer
-
-                errorsSignals = backpropagation(
-                    (weights, nextLaywerWeights),
-                    reversedIntermediate[i],
-                    learningRate,
-                    costD,
-                    activationDerivative,
-                    nextLayerErrorSignals
-                )
-
-                nextLaywerWeights = weights
-                nextLayerErrorSignals = errorsSignals
+            backpropagation(layers, intermediateValues, costD, learningRate)
 
 
 # Lista no formato [(neurons, activation), (neurons, activation), (neurons, activation)]
 # Cada tupla representa uma camada
-
 layers = [
     (2, 'SIGMOID'),
     # (2, 'SIGMOID'),
