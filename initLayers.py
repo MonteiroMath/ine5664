@@ -1,8 +1,6 @@
 from activation import activationFunctions
 import numpy as np
 
-seeds = [42, 22, 22]
-seeds = [42, 22]
 
 '''
 Valores válidos para funções de ativação:
@@ -43,8 +41,6 @@ def initLayers(layers, attrNum):
 
         # inicializa dicionário de parâmetros
         layerParams = {}
-
-        np.random.seed(seeds[i])
 
         # Extrai número de neurônios e função de ativação da camada
         neuronNum, activation = layer

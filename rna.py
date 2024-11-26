@@ -19,15 +19,15 @@ def forwardPass(input, weights, activationFunction):
 
         input: Array contendo as entradas da camada (atributos do input ou ativações da camada anterior)
 
-        weights: matrix contendo os pesos de cada neurônio da camada
+        weights: matriz contendo os pesos de cada neurônio da camada
 
         activationFunction: função de ativação definida para uso na camada
 
     Retorna:
 
-        activation: os valores calculados para a ativação do neurônio
+        activation: os valores calculados para a ativação dos neurônios
 
-        combination: os valores calculados na combinação linear do neurônio
+        combination: os valores calculados na combinação linear dos neurônios
     """
 
     combination = np.dot(input, weights.T)
@@ -45,6 +45,10 @@ def rna(input, layers):
         input: Array contendo os atributos da observação para processamento
 
         layers: lista contendo dicionário com parâmetros de cada camada. Ver initLayers.
+
+    Retorna:
+
+        activations os valores de ativação calculados pela camada de output
 
     """
 
