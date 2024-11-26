@@ -66,3 +66,5 @@ def train(epochs, learningRate, layers, observations, costF):
 
             for i, layer in enumerate(layers):
                 layer["weights"] = adjustedWeights[i]
+
+    return layers
