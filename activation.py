@@ -17,7 +17,7 @@ def identity(x):
 
 def identityDerivative(x):
     #Derivada da função identidade
-    return 1
+    return np.ones_like(x)
 
 def ReLU(x):
     #Função de ativação usada para introduzir não-linearidade. Muito utilizada para neurônios de camadas ocultas.
