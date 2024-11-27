@@ -15,6 +15,9 @@ def identity(x):
     #Função de ativação que não modifica a saída do neurônio, útil em tarefas de regressão 
     return x
 
+def identityDerivative(x):
+    #Derivada da função identidade
+    return 1
 
 def ReLU(x):
     #Função de ativação usada para introduzir não-linearidade. Muito utilizada para neurônios de camadas ocultas.
@@ -35,12 +38,13 @@ def softmaxDerivative(x):
     #Necessário testar
     softmaxResult = softmax(x) 
     softmaxVectorReshaped = softmaxResult.reshape(-1,1) #Necessário fazer a transposta do vetor para poder multiplicar
-    jacobain_matrix = np.diagflat(softmaxVectorReshaped) - np.dot(softmaxVectorReshaped, softmaxVectorReshaped.T)
+    jacobian_matrix = np.diagflat(softmaxVectorReshaped) - np.dot(softmaxVectorReshaped, softmaxVectorReshaped.T)
     return jacobian_matrix
 
 
 activationFunctions = {
     "SIGMOID": (sigmoid, sigmoidDerivative),
     "RELU": (ReLU, ReluDerivative),
-    "SOFTMAX": (softmax, softmaxDerivative)
+    "SOFTMAX": (softmax, softmaxDerivative),
+    "IDENTITY": (identity, identityDerivative)
 }
