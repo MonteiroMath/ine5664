@@ -32,12 +32,12 @@ def categoricalCrossEntropy(predictions, labels):
     return -np.sum(labels * np.log(predictions)) / predictions.shape[0]
 
 
-def categorialEntropyDerivative(predictions, labels):
+def categoricalEntropyDerivative(predictions, labels):
     pass
 
 
 costFunctions = {
     "MSE": (meanSquaredError, mseDerivative),
     "BINARY_ENTROPY": (binaryCrossEntropy, binaryEntropyDerivative),
-    "CATEGORICAL_ENTROPY": (categoricalCrossEntropy, categorialEntropyDerivative)
+    "CATEGORICAL_ENTROPY": (categoricalCrossEntropy, categoricalEntropyDerivative)
 }
