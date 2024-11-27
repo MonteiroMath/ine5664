@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
 
 def accuracy(predictions, labels):
     return int(sum(labels == predictions) / len(labels) * 100)
@@ -32,4 +33,12 @@ def evaluate_regression(targets, predictions):
 
     # Return metrics in a dictionary
     return {"RMSE": rmse, "R^2": r2}
+    
+def splitData(features, labels, validationPercentage=0.2):
+    featuresTrain, featuresVal, targetTrain, targetVal = train_test_split(
+        features,
+        labels,
+        test_size=validationPercentage,
+    )
+    return featuresTrain, featuresVal, targetTrain, targetVal
     
