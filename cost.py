@@ -33,7 +33,10 @@ def categoricalCrossEntropy(predictions, labels):
 
 
 def categoricalEntropyDerivative(predictions, labels):
-    pass
+    epsilon=1e-12
+    predictions = np.clip(predictions, epsilon, 1 - epsilon)
+    return predictions - labels
+
 
 
 costFunctions = {

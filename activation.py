@@ -35,11 +35,8 @@ def softmax(x):
     return exp_x / np.sum(exp_x, axis=-1, keepdims=True)
 
 def softmaxDerivative(x):
-    #Necessário testar
-    softmaxResult = softmax(x) 
-    softmaxVectorReshaped = softmaxResult.reshape(-1,1) #Necessário fazer a transposta do vetor para poder multiplicar
-    jacobian_matrix = np.diagflat(softmaxVectorReshaped) - np.dot(softmaxVectorReshaped, softmaxVectorReshaped.T)
-    return jacobian_matrix
+    # Em razão da fórmula de cálculo para cost da categoricalEntropy, não é necessário calcular a derivada da softmax
+    return 1
 
 
 activationFunctions = {
