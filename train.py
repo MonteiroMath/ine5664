@@ -53,8 +53,7 @@ def train(epochs, learningRate, layers, observations, costF):
 
             # invoca a função de custo
             cost = costFunction(prediction, label)
-            print(prediction)
-
+        
             # Calcula a derivada do custo para a observação corrente
             costD = costDerivative(prediction, label)
 
