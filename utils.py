@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 
+
 def accuracy(predictions, labels):
     return int(sum(labels == predictions) / len(labels) * 100)
 
@@ -58,5 +59,26 @@ def evaluate_classification(labels, predictions):
 
     }
     return metrics
+
+
+def evaluate_multiclass_with_one_hot(labelOneHot, predictionOneHot):
+
+    # Converte one-hot labels para indices de classes
+    label = np.argmax(labelOneHot, axis=1)
+    prediction = np.argmax(predictionOneHot, axis=1)
+
+    # Computa as métricas
+    metrics = {
+        'accuracy': accuracy_score(label, prediction),
+        'precision': precision_score(label, prediction, average='weighted', zero_division=0),
+    }
+
+    print("Evaluation Metrics:")
+
+    for key, value in metrics.items():
+        print(f"{key}: {value:.4f}")
+
+    return metrics
+
 
     
