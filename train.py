@@ -51,9 +51,6 @@ def train(epochs, learningRate, layers, observations, labels, costF):
             prediction = rna(observation, layers)
             predictions.append(prediction)
 
-            # invoca a função de custo
-            cost = costFunction(prediction, label)
-        
             # Calcula a derivada do custo para a observação corrente
             costD = costDerivative(prediction, label)
 
@@ -65,5 +62,10 @@ def train(epochs, learningRate, layers, observations, labels, costF):
 
             for i, layer in enumerate(layers):
                 layer["weights"] = adjustedWeights[i]
+
+        # invoca a função de custo
+        predictions = np.array(predictions)
+        cost = costFunction(predictions, labels)
+        print(cost)
 
     return layers
