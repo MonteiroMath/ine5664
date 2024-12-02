@@ -4,7 +4,7 @@ from cost import costFunctions
 from backpropagation import backpropagation
 
 
-def train(epochs, learningRate, layers, observations, costF):
+def train(epochs, learningRate, layers, observations, labels, costF):
     """
 
     Implementa o algoritmo de treinamento da rede neural.
@@ -41,14 +41,14 @@ def train(epochs, learningRate, layers, observations, costF):
         predictions = []
 
         # itera pelas observações
-        for observation in observations:
+        for observation, label in zip(observations, labels):
 
-            # extrai atributos e label das observações
-            attributes, label = observation
-            attributes = np.array(attributes)
+            # formata observations e labels como arrays
+            observation = np.array(observation)
+            label = np.array(label)
 
             # Repassa os atributos e parâmetros das camadas para a rede neural e obtém uma predição
-            prediction = rna(attributes, layers)
+            prediction = rna(observation, layers)
             predictions.append(prediction)
 
             # invoca a função de custo
