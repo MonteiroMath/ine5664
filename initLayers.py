@@ -46,8 +46,9 @@ def initLayers(layers, attrNum):
         neuronNum, activation = layer
 
         # Gera a matriz de pesos da camada. Um row por neurônio, contendo um peso para cada neurônio da camada anterior + 1 para o bias
-        layerParams["weights"] = np.random.randn(
-            neuronNum, prevLayerNeurons + 1)
+        #layerParams["weights"] = np.random.randn(
+        #    neuronNum, prevLayerNeurons + 1)
+        layerParams["weights"] = np.random.uniform(low=-0.33, high=0.33,size=(neuronNum,prevLayerNeurons + 1))
         
         # Extrai funções de ativação e derivação da camada
         activationFunction, derivateFunction = activationFunctions[activation]
