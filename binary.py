@@ -5,7 +5,7 @@ from rna import rna
 from utils import normalize, splitData, accuracy
 
 # Carrega dados do dataset:
-DATASET_PATH = './data/mushroom_cleaned_3000.csv'
+DATASET_PATH = './data/heart.csv'
 data = np.genfromtxt(DATASET_PATH, delimiter=',', skip_header=1)
 
 # Separa features e labels:
