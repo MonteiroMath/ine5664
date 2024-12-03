@@ -1,5 +1,6 @@
 from train import train
 from initLayers import initLayers
+import numpy as np
 
 from rna import rna
 
@@ -7,7 +8,6 @@ from rna import rna
 # Cada tupla representa uma camada
 layers = [
     (2, 'RELU'),
-    # (2, 'SIGMOID'),
     (1, 'SIGMOID')
 ]
 
@@ -19,26 +19,27 @@ EPOCHS = 1000
 LEARNING_RATE = 0.1
 
 observations = [
-    ([0, 0], 0),
-    ([0, 1], 1),
-    ([1, 0], 1),
-    ([1, 1], 1),
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1],
 ]
 
+labels = np.array([0, 1, 1, 1])
+labels = labels.reshape(-1, 1)
 
-trainedParams = train(EPOCHS, LEARNING_RATE, layers, observations, costF)
+
+trainedParams = train(EPOCHS, LEARNING_RATE, layers, observations, labels, costF)
 
 
 
-for observation in observations:
+for observation, label in zip(observations, labels):
 
-  input, label = observation
-
-  activations = rna(input, trainedParams)
+  activations = rna(observation, trainedParams)
 
   prediction = 1 if activations > 0.5 else 0
 
-  print(f"For input {input} with {label} the prediction was {prediction} \n")
+  print(f"For input {observation} with {label} the prediction was {prediction} \n")
 
 
 

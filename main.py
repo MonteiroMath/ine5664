@@ -1,5 +1,6 @@
 from train import train
 from initLayers import initLayers
+import numpy as np
 
 # Lista no formato [(neurons, activation), (neurons, activation), (neurons, activation)]
 # Cada tupla representa uma camada
@@ -17,11 +18,14 @@ EPOCHS = 1000
 LEARNING_RATE = 0.1
 
 observations = [
-    ([0, 0], 0),
-    ([0, 1], 1),
-    ([1, 0], 1),
-    ([1, 1], 1),
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1],
 ]
 
+labels = np.array([0, 1, 1, 1])
+labels = labels.reshape(-1, 1)
 
-train(EPOCHS, LEARNING_RATE, layers, observations, costF)
+
+train(EPOCHS, LEARNING_RATE, layers, observations, labels, costF)
