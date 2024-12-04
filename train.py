@@ -71,17 +71,17 @@ def train(epochs, learningRate, layers, observations, labels, costF):
         print(cost)
         error.append(cost)
 
-        #
-        from matplotlib import pyplot as plt
-        plt.plot(error)
-        if (costF == "MSE"):
-            plt.title("regressão - treino")
-        elif (costF == "BINARY_ENTROPY"):
-            plt.title("classificação binária - treino")
-        else:
-            plt.title("classificação multiclasse - treino")
-        plt.xlabel("epoca")
-        plt.ylabel("custo")
-        plt.show()
+    #
+    from matplotlib import pyplot as plt
+    plt.plot(error)
+    if (costF == "MSE"):
+        plt.title("regressão - treino")
+    elif (costF == "BINARY_ENTROPY"):
+        plt.title("classificação binária - treino")
+    else:
+        plt.title("classificação multiclasse - treino")
+    plt.xlabel("epoca")
+    plt.ylabel("custo")
+    plt.show()
 
     return layers
