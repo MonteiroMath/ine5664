@@ -2,6 +2,7 @@ import numpy as np
 from rna import rna
 from cost import costFunctions
 from backpropagation import backpropagation
+from matplotlib import pyplot as plt
 
 
 def train(epochs, learningRate, layers, observations, labels, costF):
@@ -72,7 +73,6 @@ def train(epochs, learningRate, layers, observations, labels, costF):
         error.append(cost)
 
     #
-    from matplotlib import pyplot as plt
     plt.plot(error)
     if (costF == "MSE"):
         plt.title("regressão - treino")
