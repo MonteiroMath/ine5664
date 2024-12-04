@@ -32,7 +32,7 @@ layers = [
 # Definição função de custo, épocas e learning rate
 COSTF = "BINARY_ENTROPY"
 EPOCHS = 50
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.002
 
 # Inicializa os pesos e as funções das camadas:
 layers = initLayers(layers, INPUT_NEURONS)
