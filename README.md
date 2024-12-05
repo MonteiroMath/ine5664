@@ -18,9 +18,13 @@ A implementação contempla:
 - Algoritmo de retropropagação (arquivo [backpropagation.py](https://github.com/MonteiroMath/ine5664/blob/main/backpropagation.py))
 - Otimização por gradiente descendente (utilizado na retropropagação)
 
-Foram utilizadas as bibliotecas NumPY para operações matemática e scikit-learn para obtenção de métricas e separação de amostras para treinamento e validação. Não foram utilizadas bibliotecas de alto nível que implemente, completa ou parcialmente, qualquer requisito do trabalho.
+Foram utilizadas as bibliotecas NumPY para operações matemática, scikit-learn para obtenção de métricas e separação de amostras para treinamento e validação e matplotlib para as plotagem de gráficos. Não foram utilizadas bibliotecas de alto nível que implemente, completa ou parcialmente, qualquer requisito do trabalho.
 
 Abaixo, serão apresentados brevemente os principais arquivos do projeto e orientações para uso.
+
+### 1.1 Dependências
+
+Conforme explicado acima, Foram utilizadas as bibliotecas NumPY para operações matemática, scikit-learn para obtenção de métricas e separação de amostras para treinamento e validação e matplotlib para as plotagem de gráficos. Dessa forma, é necessário assegurar que essas dependências estão satisfeitas para executar os arquivos deste projeto.
 
 ## 2. Principais arquivos do projeto
 
@@ -324,10 +328,42 @@ for observation, label in zip(observations, labels):
 
 ```
 
-## 4 Jupyter Notebook
+## 4 Jupyter Notebooks
 
-### 4.1 Regressão
+Conforme requisito para avaliação, foram desenvolvidos notebooks jupyter para treinamento dos modelos. Em razão de pequenas diferenças para execução, são fornecidas duas versões dos notebooks:
 
-### 4.2 Classificação Binária
+- Notebooks para execução na plataforma COLAB: prioriza a facilidade de execução sobre a modularidade. Contém todo o código desenvolvido no projeto e necessário para a execução. Requer apenas a abertura do notebook no google colab e o upload do dataset para funcionar.
+- Notebooks para execução local: mantém a estrutura mais modular do código. Importa os arquivos necessários para execução em vez de ter todo o código copiado internamente. Para rodar localmente, basta assegurar que as dependências estão instaladas e executá-los.
 
-### 4.3 Classificação multiclasses
+Além disso, os paths dos datasets em ambas as versões são diferentes, em razão das exigências da plataforma google colab.
+
+### 4.1 Notebooks para COLAB
+
+Priorizam a facilidade de execução sobre a modularidade. Contém todo o código desenvolvido no projeto e necessário para a execução. Foram desenvolvidos para utilização na plataforma google colab e *não funcionarão localmente*. Estão armazenados na pasta colab, são os seguintes arquivos:
+
+- [colab_regression.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/colab/colab_regression.ipynb) para regressão
+- [colab_binary.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/colab/colab_binary.ipynb) para classificação binária
+- [colab_multiclass.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/colab/colab_multiclass.ipynb) para classificação multiclasses
+
+
+Para utilizá-los, seguir as instruções abaixo:
+
+- Abrir a plataforma google colab
+- Escolher a opção "Open notebook" e selecionar, na pasta colab do projeto, o notebook desejado, conforme arquivos acima
+- No menu à esquerda, selecionar a opção "files" e em seguida "upload files"
+- Selecionar na pasta "data" do projeto o dataset adequado para o notebook utilizado, conforme orientação abaixo:
+    - Para regressão (colab_regression.ipynb) utilizar o dataset [houses.csv](https://github.com/MonteiroMath/ine5664/blob/main/data/houses.csv)
+    - Para classificação binária (colab_binary.ipynb) utilizar o dataset [heart.csv](https://github.com/MonteiroMath/ine5664/blob/main/data/heart.csv)
+    - Para classificação multiclasses (colab_multiclass.ipynb) utilizar o dataset [penguins.csv](https://github.com/MonteiroMath/ine5664/blob/main/data/penguins.csv)
+- Executar as células do notebook escolhido na sequência em que foram definidas
+
+### 4.2 Notebooks locais
+
+Esses notebooks estão prontos para uso localmente, bastanto assegura-se de que as dependências estão instaladas para executá-los. As dependências são as libraries: as libraries numpy, scikit-learn e matplotlib
+
+Com as dependências instaladas, basta abrir o notebook desejado e executar as células na ordem em que foram definidas. Os arquivos estão na pasta raiz do projeto com os seguintes nomes:
+
+[regression.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/regression.ipynb)
+[binary.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/binary.ipynb)  
+[multiclass.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/multiclass.ipynb)
+
