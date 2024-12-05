@@ -4,9 +4,9 @@
 
 Repositório para o Projeto Final da disciplina INE5664 (Aprendizado de Máquina) da UFSC, desenvolvido pelos alunos:
 
-_Matheus Antunes Monteiro_
-_Bruno Duarte de Borja_
-_Leandro do Nascimento_
+- _Matheus Antunes Monteiro_
+- _Bruno Duarte de Borja_
+- _Leandro do Nascimento_
 
 O projeto consiste na implementação de um modelo de rede neural e seu treinamento para 3 tarefas: regressão, classificação binária e classificação multiclasses.
 
