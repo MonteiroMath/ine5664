@@ -363,7 +363,7 @@ Esses notebooks estão prontos para uso localmente, bastanto assegura-se de que 
 
 Com as dependências instaladas, basta abrir o notebook desejado e executar as células na ordem em que foram definidas. Os arquivos estão na pasta raiz do projeto com os seguintes nomes:
 
-[regression.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/regression.ipynb)
-[binary.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/binary.ipynb)  
-[multiclass.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/multiclass.ipynb)
+- [regression.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/regression.ipynb) para regressão
+- [binary.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/binary.ipynb)  para classificação binária
+- [multiclass.ipynb](https://github.com/MonteiroMath/ine5664/blob/main/multiclass.ipynb) para classificação multiclasses
 
