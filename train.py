@@ -18,14 +18,9 @@ def train(epochs, learningRate, layers, observations, labels, costF):
 
         layers: lista com os parâmetros de cada camada da rede. Ver initLayers para mais detalhes.
 
-        observations: lista de tuplas contendo observações para treinamento. Cada tupla tem dois elementos: ([atributosDaObservação, label])
-            Exemplo:
-            observations = [
-                ([0, 0], 0),
-                ([0, 1], 1),
-                ([1, 0], 1),
-                ([1, 1], 1),
-                ]
+        observations: lista de tuplas contendo observações para treinamento. 
+
+        labels: labels das observações em observations
 
         costF: identificador para função de custo. Valores válidos:
             MSE
